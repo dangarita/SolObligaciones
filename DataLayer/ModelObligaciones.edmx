@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CSIT_ObligacionesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Anexo">
+          <Key>
+            <PropertyRef Name="IdAnexo" />
+          </Key>
+          <Property Name="IdAnexo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomAnexo" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="EstadoAnexo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Capitulo">
+          <Key>
+            <PropertyRef Name="IdCapitulo" />
+          </Key>
+          <Property Name="IdCapitulo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomCapitulo" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="EstadoCapitulo" Type="bit" Nullable="false" />
+          <Property Name="IdAnexo" Type="int" />
+        </EntityType>
+        <EntityType Name="CriterioAceptación">
+          <Key>
+            <PropertyRef Name="IdCriterioAceptacion" />
+          </Key>
+          <Property Name="IdCriterioAceptacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomCriterioAceptacion" Type="varchar" MaxLength="800" Nullable="false" />
+          <Property Name="EstadoCriterioAceptacion" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cumplimiento">
+          <Key>
+            <PropertyRef Name="IdCumplimiento" />
+          </Key>
+          <Property Name="IdCumplimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomCumplimiento" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="EstadoCumplimiento" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Entregable">
+          <Key>
+            <PropertyRef Name="IdEntregable" />
+          </Key>
+          <Property Name="IdEntregable" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomEntregable" Type="varchar" MaxLength="800" Nullable="false" />
+          <Property Name="EstadoEntregable" Type="bit" Nullable="false" />
+          <Property Name="IdObligacion" Type="int" Nullable="false" />
+          <Property Name="IdPeriodicidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Obligacion">
+          <Key>
+            <PropertyRef Name="IdObligacion" />
+          </Key>
+          <Property Name="IdObligacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomObligacion" Type="varchar" MaxLength="3000" />
+          <Property Name="EstadoObligación" Type="bit" />
+          <Property Name="IdCapitulo" Type="int" />
+        </EntityType>
+        <EntityType Name="Periodicidad">
+          <Key>
+            <PropertyRef Name="IdPeriodicidad" />
+          </Key>
+          <Property Name="IdPeriodicidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomPeriodicidad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EstadoPeriodicidad" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Seguimiento">
+          <Key>
+            <PropertyRef Name="IdSeguimiento" />
+          </Key>
+          <Property Name="IdSeguimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdObligación" Type="int" Nullable="false" />
+          <Property Name="IdCumplimiento" Type="int" Nullable="false" />
+          <Property Name="FechaSeguimiento" Type="datetime" Nullable="false" />
+          <Property Name="ObservacionSeguimiento" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="LinkEvidencia" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Capitulo_Anexo">
+          <End Role="Anexo" Type="Self.Anexo" Multiplicity="0..1" />
+          <End Role="Capitulo" Type="Self.Capitulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Anexo">
+              <PropertyRef Name="IdAnexo" />
+            </Principal>
+            <Dependent Role="Capitulo">
+              <PropertyRef Name="IdAnexo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CriterioAceptación_Entregable">
+          <End Role="Entregable" Type="Self.Entregable" Multiplicity="1" />
+          <End Role="CriterioAceptación" Type="Self.CriterioAceptación" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Entregable">
+              <PropertyRef Name="IdEntregable" />
+            </Principal>
+            <Dependent Role="CriterioAceptación">
+              <PropertyRef Name="IdCriterioAceptacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entregable_Obligacion">
+          <End Role="Obligacion" Type="Self.Obligacion" Multiplicity="1" />
+          <End Role="Entregable" Type="Self.Entregable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Obligacion">
+              <PropertyRef Name="IdObligacion" />
+            </Principal>
+            <Dependent Role="Entregable">
+              <PropertyRef Name="IdObligacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entregable_Periodicidad">
+          <End Role="Periodicidad" Type="Self.Periodicidad" Multiplicity="1" />
+          <End Role="Entregable" Type="Self.Entregable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Periodicidad">
+              <PropertyRef Name="IdPeriodicidad" />
+            </Principal>
+            <Dependent Role="Entregable">
+              <PropertyRef Name="IdPeriodicidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Obligacion_Capitulo">
+          <End Role="Capitulo" Type="Self.Capitulo" Multiplicity="0..1" />
+          <End Role="Obligacion" Type="Self.Obligacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Capitulo">
+              <PropertyRef Name="IdCapitulo" />
+            </Principal>
+            <Dependent Role="Obligacion">
+              <PropertyRef Name="IdCapitulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seguimiento_Cumplimiento">
+          <End Role="Cumplimiento" Type="Self.Cumplimiento" Multiplicity="1" />
+          <End Role="Seguimiento" Type="Self.Seguimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cumplimiento">
+              <PropertyRef Name="IdCumplimiento" />
+            </Principal>
+            <Dependent Role="Seguimiento">
+              <PropertyRef Name="IdCumplimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seguimiento_Obligacion">
+          <End Role="Obligacion" Type="Self.Obligacion" Multiplicity="1" />
+          <End Role="Seguimiento" Type="Self.Seguimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Obligacion">
+              <PropertyRef Name="IdObligacion" />
+            </Principal>
+            <Dependent Role="Seguimiento">
+              <PropertyRef Name="IdObligación" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CSIT_ObligacionesModelStoreContainer">
+          <EntitySet Name="Anexo" EntityType="Self.Anexo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Capitulo" EntityType="Self.Capitulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CriterioAceptación" EntityType="Self.CriterioAceptación" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cumplimiento" EntityType="Self.Cumplimiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Entregable" EntityType="Self.Entregable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Obligacion" EntityType="Self.Obligacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Periodicidad" EntityType="Self.Periodicidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seguimiento" EntityType="Self.Seguimiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Capitulo_Anexo" Association="Self.FK_Capitulo_Anexo">
+            <End Role="Anexo" EntitySet="Anexo" />
+            <End Role="Capitulo" EntitySet="Capitulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CriterioAceptación_Entregable" Association="Self.FK_CriterioAceptación_Entregable">
+            <End Role="Entregable" EntitySet="Entregable" />
+            <End Role="CriterioAceptación" EntitySet="CriterioAceptación" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entregable_Obligacion" Association="Self.FK_Entregable_Obligacion">
+            <End Role="Obligacion" EntitySet="Obligacion" />
+            <End Role="Entregable" EntitySet="Entregable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entregable_Periodicidad" Association="Self.FK_Entregable_Periodicidad">
+            <End Role="Periodicidad" EntitySet="Periodicidad" />
+            <End Role="Entregable" EntitySet="Entregable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Obligacion_Capitulo" Association="Self.FK_Obligacion_Capitulo">
+            <End Role="Capitulo" EntitySet="Capitulo" />
+            <End Role="Obligacion" EntitySet="Obligacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seguimiento_Cumplimiento" Association="Self.FK_Seguimiento_Cumplimiento">
+            <End Role="Cumplimiento" EntitySet="Cumplimiento" />
+            <End Role="Seguimiento" EntitySet="Seguimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seguimiento_Obligacion" Association="Self.FK_Seguimiento_Obligacion">
+            <End Role="Obligacion" EntitySet="Obligacion" />
+            <End Role="Seguimiento" EntitySet="Seguimiento" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CSIT_ObligacionesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Anexo">
+          <Key>
+            <PropertyRef Name="IdAnexo" />
+          </Key>
+          <Property Name="IdAnexo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomAnexo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EstadoAnexo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Capitulo" Relationship="Self.FK_Capitulo_Anexo" FromRole="Anexo" ToRole="Capitulo" />
+        </EntityType>
+        <EntityType Name="Capitulo">
+          <Key>
+            <PropertyRef Name="IdCapitulo" />
+          </Key>
+          <Property Name="IdCapitulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomCapitulo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EstadoCapitulo" Type="Boolean" Nullable="false" />
+          <Property Name="IdAnexo" Type="Int32" />
+          <NavigationProperty Name="Anexo" Relationship="Self.FK_Capitulo_Anexo" FromRole="Capitulo" ToRole="Anexo" />
+          <NavigationProperty Name="Obligacion" Relationship="Self.FK_Obligacion_Capitulo" FromRole="Capitulo" ToRole="Obligacion" />
+        </EntityType>
+        <EntityType Name="CriterioAceptación">
+          <Key>
+            <PropertyRef Name="IdCriterioAceptacion" />
+          </Key>
+          <Property Name="IdCriterioAceptacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomCriterioAceptacion" Type="String" MaxLength="800" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EstadoCriterioAceptacion" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Entregable" Relationship="Self.FK_CriterioAceptación_Entregable" FromRole="CriterioAceptación" ToRole="Entregable" />
+        </EntityType>
+        <EntityType Name="Cumplimiento">
+          <Key>
+            <PropertyRef Name="IdCumplimiento" />
+          </Key>
+          <Property Name="IdCumplimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomCumplimiento" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EstadoCumplimiento" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Seguimiento" Relationship="Self.FK_Seguimiento_Cumplimiento" FromRole="Cumplimiento" ToRole="Seguimiento" />
+        </EntityType>
+        <EntityType Name="Entregable">
+          <Key>
+            <PropertyRef Name="IdEntregable" />
+          </Key>
+          <Property Name="IdEntregable" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomEntregable" Type="String" MaxLength="800" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EstadoEntregable" Type="Boolean" Nullable="false" />
+          <Property Name="IdObligacion" Type="Int32" Nullable="false" />
+          <Property Name="IdPeriodicidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CriterioAceptación" Relationship="Self.FK_CriterioAceptación_Entregable" FromRole="Entregable" ToRole="CriterioAceptación" />
+          <NavigationProperty Name="Obligacion" Relationship="Self.FK_Entregable_Obligacion" FromRole="Entregable" ToRole="Obligacion" />
+          <NavigationProperty Name="Periodicidad" Relationship="Self.FK_Entregable_Periodicidad" FromRole="Entregable" ToRole="Periodicidad" />
+        </EntityType>
+        <EntityType Name="Obligacion">
+          <Key>
+            <PropertyRef Name="IdObligacion" />
+          </Key>
+          <Property Name="IdObligacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomObligacion" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoObligación" Type="Boolean" />
+          <Property Name="IdCapitulo" Type="Int32" />
+          <NavigationProperty Name="Capitulo" Relationship="Self.FK_Obligacion_Capitulo" FromRole="Obligacion" ToRole="Capitulo" />
+          <NavigationProperty Name="Entregable" Relationship="Self.FK_Entregable_Obligacion" FromRole="Obligacion" ToRole="Entregable" />
+          <NavigationProperty Name="Seguimiento" Relationship="Self.FK_Seguimiento_Obligacion" FromRole="Obligacion" ToRole="Seguimiento" />
+        </EntityType>
+        <EntityType Name="Periodicidad">
+          <Key>
+            <PropertyRef Name="IdPeriodicidad" />
+          </Key>
+          <Property Name="IdPeriodicidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomPeriodicidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EstadoPeriodicidad" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Entregable" Relationship="Self.FK_Entregable_Periodicidad" FromRole="Periodicidad" ToRole="Entregable" />
+        </EntityType>
+        <EntityType Name="Seguimiento">
+          <Key>
+            <PropertyRef Name="IdSeguimiento" />
+          </Key>
+          <Property Name="IdSeguimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdObligación" Type="Int32" Nullable="false" />
+          <Property Name="IdCumplimiento" Type="Int32" Nullable="false" />
+          <Property Name="FechaSeguimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ObservacionSeguimiento" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LinkEvidencia" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cumplimiento" Relationship="Self.FK_Seguimiento_Cumplimiento" FromRole="Seguimiento" ToRole="Cumplimiento" />
+          <NavigationProperty Name="Obligacion" Relationship="Self.FK_Seguimiento_Obligacion" FromRole="Seguimiento" ToRole="Obligacion" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Capitulo_Anexo">
+          <End Role="Anexo" Type="Self.Anexo" Multiplicity="0..1" />
+          <End Role="Capitulo" Type="Self.Capitulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Anexo">
+              <PropertyRef Name="IdAnexo" />
+            </Principal>
+            <Dependent Role="Capitulo">
+              <PropertyRef Name="IdAnexo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Obligacion_Capitulo">
+          <End Role="Capitulo" Type="Self.Capitulo" Multiplicity="0..1" />
+          <End Role="Obligacion" Type="Self.Obligacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Capitulo">
+              <PropertyRef Name="IdCapitulo" />
+            </Principal>
+            <Dependent Role="Obligacion">
+              <PropertyRef Name="IdCapitulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CriterioAceptación_Entregable">
+          <End Role="Entregable" Type="Self.Entregable" Multiplicity="1" />
+          <End Role="CriterioAceptación" Type="Self.CriterioAceptación" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Entregable">
+              <PropertyRef Name="IdEntregable" />
+            </Principal>
+            <Dependent Role="CriterioAceptación">
+              <PropertyRef Name="IdCriterioAceptacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seguimiento_Cumplimiento">
+          <End Role="Cumplimiento" Type="Self.Cumplimiento" Multiplicity="1" />
+          <End Role="Seguimiento" Type="Self.Seguimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cumplimiento">
+              <PropertyRef Name="IdCumplimiento" />
+            </Principal>
+            <Dependent Role="Seguimiento">
+              <PropertyRef Name="IdCumplimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entregable_Obligacion">
+          <End Role="Obligacion" Type="Self.Obligacion" Multiplicity="1" />
+          <End Role="Entregable" Type="Self.Entregable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Obligacion">
+              <PropertyRef Name="IdObligacion" />
+            </Principal>
+            <Dependent Role="Entregable">
+              <PropertyRef Name="IdObligacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entregable_Periodicidad">
+          <End Role="Periodicidad" Type="Self.Periodicidad" Multiplicity="1" />
+          <End Role="Entregable" Type="Self.Entregable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Periodicidad">
+              <PropertyRef Name="IdPeriodicidad" />
+            </Principal>
+            <Dependent Role="Entregable">
+              <PropertyRef Name="IdPeriodicidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seguimiento_Obligacion">
+          <End Role="Obligacion" Type="Self.Obligacion" Multiplicity="1" />
+          <End Role="Seguimiento" Type="Self.Seguimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Obligacion">
+              <PropertyRef Name="IdObligacion" />
+            </Principal>
+            <Dependent Role="Seguimiento">
+              <PropertyRef Name="IdObligación" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbConnection" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Anexo" EntityType="Self.Anexo" />
+          <EntitySet Name="Capitulo" EntityType="Self.Capitulo" />
+          <EntitySet Name="CriterioAceptación" EntityType="Self.CriterioAceptación" />
+          <EntitySet Name="Cumplimiento" EntityType="Self.Cumplimiento" />
+          <EntitySet Name="Entregable" EntityType="Self.Entregable" />
+          <EntitySet Name="Obligacion" EntityType="Self.Obligacion" />
+          <EntitySet Name="Periodicidad" EntityType="Self.Periodicidad" />
+          <EntitySet Name="Seguimiento" EntityType="Self.Seguimiento" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_Capitulo_Anexo" Association="Self.FK_Capitulo_Anexo">
+            <End Role="Anexo" EntitySet="Anexo" />
+            <End Role="Capitulo" EntitySet="Capitulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Obligacion_Capitulo" Association="Self.FK_Obligacion_Capitulo">
+            <End Role="Capitulo" EntitySet="Capitulo" />
+            <End Role="Obligacion" EntitySet="Obligacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CriterioAceptación_Entregable" Association="Self.FK_CriterioAceptación_Entregable">
+            <End Role="Entregable" EntitySet="Entregable" />
+            <End Role="CriterioAceptación" EntitySet="CriterioAceptación" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seguimiento_Cumplimiento" Association="Self.FK_Seguimiento_Cumplimiento">
+            <End Role="Cumplimiento" EntitySet="Cumplimiento" />
+            <End Role="Seguimiento" EntitySet="Seguimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entregable_Obligacion" Association="Self.FK_Entregable_Obligacion">
+            <End Role="Obligacion" EntitySet="Obligacion" />
+            <End Role="Entregable" EntitySet="Entregable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entregable_Periodicidad" Association="Self.FK_Entregable_Periodicidad">
+            <End Role="Periodicidad" EntitySet="Periodicidad" />
+            <End Role="Entregable" EntitySet="Entregable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seguimiento_Obligacion" Association="Self.FK_Seguimiento_Obligacion">
+            <End Role="Obligacion" EntitySet="Obligacion" />
+            <End Role="Seguimiento" EntitySet="Seguimiento" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CSIT_ObligacionesModelStoreContainer" CdmEntityContainer="dbConnection">
+          <EntitySetMapping Name="Anexo">
+            <EntityTypeMapping TypeName="CSIT_ObligacionesModel.Anexo">
+              <MappingFragment StoreEntitySet="Anexo">
+                <ScalarProperty Name="IdAnexo" ColumnName="IdAnexo" />
+                <ScalarProperty Name="NomAnexo" ColumnName="NomAnexo" />
+                <ScalarProperty Name="EstadoAnexo" ColumnName="EstadoAnexo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Capitulo">
+            <EntityTypeMapping TypeName="CSIT_ObligacionesModel.Capitulo">
+              <MappingFragment StoreEntitySet="Capitulo">
+                <ScalarProperty Name="IdCapitulo" ColumnName="IdCapitulo" />
+                <ScalarProperty Name="NomCapitulo" ColumnName="NomCapitulo" />
+                <ScalarProperty Name="EstadoCapitulo" ColumnName="EstadoCapitulo" />
+                <ScalarProperty Name="IdAnexo" ColumnName="IdAnexo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CriterioAceptación">
+            <EntityTypeMapping TypeName="CSIT_ObligacionesModel.CriterioAceptación">
+              <MappingFragment StoreEntitySet="CriterioAceptación">
+                <ScalarProperty Name="IdCriterioAceptacion" ColumnName="IdCriterioAceptacion" />
+                <ScalarProperty Name="NomCriterioAceptacion" ColumnName="NomCriterioAceptacion" />
+                <ScalarProperty Name="EstadoCriterioAceptacion" ColumnName="EstadoCriterioAceptacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cumplimiento">
+            <EntityTypeMapping TypeName="CSIT_ObligacionesModel.Cumplimiento">
+              <MappingFragment StoreEntitySet="Cumplimiento">
+                <ScalarProperty Name="IdCumplimiento" ColumnName="IdCumplimiento" />
+                <ScalarProperty Name="NomCumplimiento" ColumnName="NomCumplimiento" />
+                <ScalarProperty Name="EstadoCumplimiento" ColumnName="EstadoCumplimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Entregable">
+            <EntityTypeMapping TypeName="CSIT_ObligacionesModel.Entregable">
+              <MappingFragment StoreEntitySet="Entregable">
+                <ScalarProperty Name="IdEntregable" ColumnName="IdEntregable" />
+                <ScalarProperty Name="NomEntregable" ColumnName="NomEntregable" />
+                <ScalarProperty Name="EstadoEntregable" ColumnName="EstadoEntregable" />
+                <ScalarProperty Name="IdObligacion" ColumnName="IdObligacion" />
+                <ScalarProperty Name="IdPeriodicidad" ColumnName="IdPeriodicidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Obligacion">
+            <EntityTypeMapping TypeName="CSIT_ObligacionesModel.Obligacion">
+              <MappingFragment StoreEntitySet="Obligacion">
+                <ScalarProperty Name="IdObligacion" ColumnName="IdObligacion" />
+                <ScalarProperty Name="NomObligacion" ColumnName="NomObligacion" />
+                <ScalarProperty Name="EstadoObligación" ColumnName="EstadoObligación" />
+                <ScalarProperty Name="IdCapitulo" ColumnName="IdCapitulo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Periodicidad">
+            <EntityTypeMapping TypeName="CSIT_ObligacionesModel.Periodicidad">
+              <MappingFragment StoreEntitySet="Periodicidad">
+                <ScalarProperty Name="IdPeriodicidad" ColumnName="IdPeriodicidad" />
+                <ScalarProperty Name="NomPeriodicidad" ColumnName="NomPeriodicidad" />
+                <ScalarProperty Name="EstadoPeriodicidad" ColumnName="EstadoPeriodicidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seguimiento">
+            <EntityTypeMapping TypeName="CSIT_ObligacionesModel.Seguimiento">
+              <MappingFragment StoreEntitySet="Seguimiento">
+                <ScalarProperty Name="IdSeguimiento" ColumnName="IdSeguimiento" />
+                <ScalarProperty Name="IdObligación" ColumnName="IdObligación" />
+                <ScalarProperty Name="IdCumplimiento" ColumnName="IdCumplimiento" />
+                <ScalarProperty Name="FechaSeguimiento" ColumnName="FechaSeguimiento" />
+                <ScalarProperty Name="ObservacionSeguimiento" ColumnName="ObservacionSeguimiento" />
+                <ScalarProperty Name="LinkEvidencia" ColumnName="LinkEvidencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CSIT_ObligacionesModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

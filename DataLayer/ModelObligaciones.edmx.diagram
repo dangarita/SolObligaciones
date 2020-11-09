@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="63d91d6bc4a9443d9d1695999bb5c193" Name="Diagram1">
+        <EntityTypeShape EntityType="CSIT_ObligacionesModel.Anexo" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CSIT_ObligacionesModel.Capitulo" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CSIT_ObligacionesModel.CriterioAceptación" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CSIT_ObligacionesModel.Cumplimiento" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CSIT_ObligacionesModel.Entregable" Width="1.5" PointX="7.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CSIT_ObligacionesModel.Obligacion" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CSIT_ObligacionesModel.Periodicidad" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CSIT_ObligacionesModel.Seguimiento" Width="1.5" PointX="10.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CSIT_ObligacionesModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <AssociationConnector Association="CSIT_ObligacionesModel.FK_Capitulo_Anexo" ManuallyRouted="false" />
+        <AssociationConnector Association="CSIT_ObligacionesModel.FK_Obligacion_Capitulo" ManuallyRouted="false" />
+        <AssociationConnector Association="CSIT_ObligacionesModel.FK_CriterioAceptación_Entregable" ManuallyRouted="false" />
+        <AssociationConnector Association="CSIT_ObligacionesModel.FK_Seguimiento_Cumplimiento" ManuallyRouted="false" />
+        <AssociationConnector Association="CSIT_ObligacionesModel.FK_Entregable_Obligacion" ManuallyRouted="false" />
+        <AssociationConnector Association="CSIT_ObligacionesModel.FK_Entregable_Periodicidad" ManuallyRouted="false" />
+        <AssociationConnector Association="CSIT_ObligacionesModel.FK_Seguimiento_Obligacion" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
